@@ -26,6 +26,6 @@ workflows:
     jobs:
       - setup
 
-  setup-with-params:
-    jobs:
-      - setup-with-params
+  # setup-with-params:
+  #   jobs:
+  #     - setup-with-params
