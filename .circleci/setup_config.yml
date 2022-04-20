@@ -1,0 +1,42 @@
+version: 2.1
+
+parameters:
+  run-build-project-one-job:
+    type: boolean
+    default: false
+  run-build-project-two-job:
+    type: boolean
+    default: false
+
+workflows:
+  service-1:
+    when: << pipeline.parameters.run-build-project-one-job >>
+    jobs:
+      - run:
+          name: build-project-one
+          command: echo "Building project_one"
+
+  service-2:
+    when: << pipeline.parameters.run-build-project-two-job >>
+    jobs:
+      - run:
+          name: build-project-two
+          command: echo "Building project_two"
+
+  run-integration-tests:
+    when:
+      or:
+        [
+          << pipeline.parameters.run-build-service-1-job >>,
+          << pipeline.parameters.run-build-service-2-job >>,
+        ]
+    jobs:
+      - run:
+          name: run-integration-tests
+          command: "-X verify"
+
+  run-always:
+    jobs:
+      - run:
+          name: run-always
+          command: echo "running always"
