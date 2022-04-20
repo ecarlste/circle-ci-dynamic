@@ -10,7 +10,8 @@ parameters:
 
 jobs:
   output-text:
-    executor: cimg/base
+    docker:
+      - image: cimg/base
     parameters:
       text:
         type: string
