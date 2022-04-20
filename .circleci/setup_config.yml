@@ -27,13 +27,13 @@ workflows:
     when:
       or:
         [
-          << pipeline.parameters.run-build-service-1-job >>,
-          << pipeline.parameters.run-build-service-2-job >>,
+          << pipeline.parameters.run-build-project-one-job >>,
+          << pipeline.parameters.run-build-project-two-job >>,
         ]
     jobs:
       - run:
           name: run-integration-tests
-          command: "-X verify"
+          command: echo "running integration tests"
 
   run-always:
     jobs:
