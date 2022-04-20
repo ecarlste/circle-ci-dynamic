@@ -14,7 +14,18 @@ jobs:
       - continuation/continue:
           configuration_path: setup_config.yml
 
+  setup-with-params:
+    executor: continuation/default
+    steps:
+      - continuation/continue:
+          configuration_path: setup_config.yml
+          params: "{run-build-project-one-job: true}"
+
 workflows:
   setup:
     jobs:
       - setup
+
+  setup-with-params:
+    jobs:
+      - setup-with-params
