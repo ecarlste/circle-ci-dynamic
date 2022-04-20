@@ -25,7 +25,7 @@ jobs:
     steps:
       - checkout
       - continuation/continue:
-          configuration_path: ./.circleci/release.yml
+          configuration_path: ./.circleci/release_app.yml
 
   # setup-with-params:
   #   executor: continuation/default

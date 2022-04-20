@@ -1,0 +1,25 @@
+version: 2.1
+
+jobs:
+  output-text:
+    docker:
+      - image: cimg/base:2022.04
+    parameters:
+      text:
+        type: string
+    steps:
+      - run:
+          command: echo "<< parameters.text >>"
+
+workflows:
+  build_and_push:
+    jobs:
+      - output-text:
+          name: build-and-push
+          text: running build and push
+
+      - output-text:
+          name: testing
+          text: running tests
+          requires:
+            - build-and-push
