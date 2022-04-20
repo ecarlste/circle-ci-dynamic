@@ -8,20 +8,30 @@ parameters:
     type: boolean
     default: false
 
+jobs:
+  output-text:
+    executor: cimg/base
+    parameters:
+      text:
+        type: string
+    steps:
+      - run:
+          command: echo "<< parameters.text >>"
+
 workflows:
   service-1:
     when: << pipeline.parameters.run-build-project-one-job >>
     jobs:
-      - run:
+      - output-text:
           name: build-project-one
-          command: echo "Building project_one"
+          text: Building project_one
 
   service-2:
     when: << pipeline.parameters.run-build-project-two-job >>
     jobs:
-      - run:
+      - output-text:
           name: build-project-two
-          command: echo "Building project_two"
+          text: Building project_two
 
   run-integration-tests:
     when:
@@ -31,12 +41,12 @@ workflows:
           << pipeline.parameters.run-build-project-two-job >>,
         ]
     jobs:
-      - run:
+      - output-text:
           name: run-integration-tests
-          command: echo "running integration tests"
+          text: running integration tests
 
   run-always:
     jobs:
-      - run:
+      - output-text:
           name: run-always
-          command: echo "running always"
+          text: running always
