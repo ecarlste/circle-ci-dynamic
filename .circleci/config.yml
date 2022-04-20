@@ -35,7 +35,7 @@ jobs:
   #         parameters: "{run-build-project-one-job: true}"
 
 workflows:
-  continuous-integration:
+  setup:
     jobs:
       - continuous-integration:
           filters:
@@ -43,8 +43,6 @@ workflows:
               ignore:
                 - /^release\/.*/
 
-  release:
-    jobs:
       - release:
           filters:
             branches:
