@@ -12,7 +12,7 @@ jobs:
     executor: continuation/default
     steps:
       - continuation/continue:
-          configuration_path: ./setup_config.yml
+          configuration_path: .circleci/setup_config.yml
 
   setup-with-params:
     executor: continuation/default
