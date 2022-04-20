@@ -4,28 +4,52 @@ version: 2.1
 
 setup: true
 
+# parameters:
+#   action:
+#     enum: [ci, release]
+#     default: ci
+
 orbs:
   continuation: circleci/continuation@0.2.0
 
 jobs:
-  setup:
+  continuous-integration:
     executor: continuation/default
     steps:
       - checkout
       - continuation/continue:
-          configuration_path: ./.circleci/setup_config.yml
+          configuration_path: ./.circleci/continuous_integration.yml
 
-  setup-with-params:
+  release:
     executor: continuation/default
     steps:
+      - checkout
       - continuation/continue:
-          configuration_path: setup_config.yml
-          parameters: "{run-build-project-one-job: true}"
+          configuration_path: ./.circleci/release.yml
+
+  # setup-with-params:
+  #   executor: continuation/default
+  #   steps:
+  #     - continuation/continue:
+  #         configuration_path: setup_config.yml
+  #         parameters: "{run-build-project-one-job: true}"
 
 workflows:
-  setup:
+  continuous-integration:
     jobs:
-      - setup
+      - continuous-integration:
+          filters:
+            branches:
+              ignore:
+                - /^release\/.*/
+
+  release:
+    jobs:
+      - release:
+          filters:
+            branches:
+              only:
+                - /^release\/.*/
 
   # setup-with-params:
   #   jobs:
