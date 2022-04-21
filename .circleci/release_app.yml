@@ -12,11 +12,42 @@ jobs:
           command: echo "<< parameters.text >>"
 
 workflows:
-  build_and_push:
+  deploy-test-app:
     jobs:
       - output-text:
           name: build-and-push
           text: running build and push
+          filters:
+            branches:
+              only:
+                - release/test-app-one
+
+      - output-text:
+          name: deploy-staging
+          text: running deployment to staging
+          requires:
+            - build-and-push
+
+      - prod-hold:
+          type: approval
+          requires:
+            - deploy-staging
+
+      - output-text:
+          name: deploy-prod
+          text: running deployment to prod
+          requires:
+            - prod-hold
+
+  deploy-test-app-two:
+    jobs:
+      - output-text:
+          name: build-and-push
+          text: running build and push
+          filters:
+            branches:
+              only:
+                - release/test-app-two
 
       - output-text:
           name: deploy-staging
