@@ -19,7 +19,18 @@ workflows:
           text: running build and push
 
       - output-text:
-          name: testing
-          text: running tests
+          name: deploy-staging
+          text: running deployment to staging
           requires:
             - build-and-push
+
+      - prod-hold:
+          type: approval
+          requires:
+            - deploy-staging
+
+      - output-text:
+          name: deploy-prod
+          text: running deployment to prod
+          requires:
+            - prod-hold
